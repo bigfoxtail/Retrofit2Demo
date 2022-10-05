@@ -1,3 +1,5 @@
+## 狐狸更新，可以使用Android Studio 2021编译运行
+
 ##Retrofit 入门学习官方RetrofitAPI
 
 ### 官方的一个例子
@@ -624,16 +626,4 @@ BASE_URL
     @FormUrlEncoded
     @POST("index")
     Call<CheckBean> getInfos(@FieldMap Map<String,String> params);
-
-
-
-
-源码：
-
-<https://github.com/ln0491/Retrofit2Demo>
-
-
-
-
-
 
