@@ -7,7 +7,7 @@ package com.liu.retrofit2demo.conf;
 public interface AppUrl {
 
     //github
-    //public static final String BASE_URL="https://api.github.com/";
+    public static final String BASE_URL="https://api.github.com/";
 
 
     /**
@@ -28,6 +28,6 @@ public interface AppUrl {
 
 
 
-    String BASE_URL="http://op.juhe.cn/robot/";
+//    String BASE_URL="http://op.juhe.cn/robot/";
 
 }
