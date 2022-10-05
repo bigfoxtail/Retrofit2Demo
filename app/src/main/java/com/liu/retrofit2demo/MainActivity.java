@@ -1,7 +1,9 @@
 package com.liu.retrofit2demo;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,33 +35,30 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-
-
     private static final String TAG = "vivi";
     @BindView(R.id.btnUser)
     Button mBtnUser;
     @BindView(R.id.btnGetUser)
     Button mBtnGetUser;
 
-
     @BindView(R.id.tv)
-    TextView    mTv;
+    TextView mTv;
     @BindView(R.id.pb)
     ProgressBar mPb;
     @BindView(R.id.btnGetGithubApi)
-    Button      mBtnGetGithubApi;
+    Button mBtnGetGithubApi;
     @BindView(R.id.btnGetUseHelp)
-    Button      mBtnGetUseHelp;
+    Button mBtnGetUseHelp;
     @BindView(R.id.btnGetUseHelps)
-    Button      mBtnGetUseHelps;
+    Button mBtnGetUseHelps;
     @BindView(R.id.btnGetWeather)
-    Button      mBtnGetWeather;
+    Button mBtnGetWeather;
     @BindView(R.id.btnGetWeathers)
-    Button      mBtnGetWeathers;
+    Button mBtnGetWeathers;
     @BindView(R.id.btnGetCheckcode)
-    Button      mBtnGetCheckcode;
+    Button mBtnGetCheckcode;
     @BindView(R.id.btnGetCheckcodes)
-    Button      mBtnGetCheckcodes;
+    Button mBtnGetCheckcodes;
 
     /**
      * /storage/emulated/0/MagazineUnlock/magazine-unlock-03-2.3.311-bigpicture_03_20.jpg
@@ -74,14 +73,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-
     }
 
-
-    @OnClick({R.id.btnUser, R.id.btnGetUser, R.id.btnGetGithubApi, R.id.btnGetUseHelp, R.id.btnGetUseHelps, R.id.btnGetWeather, R.id.btnGetWeathers,R.id.btnGetCheckcode,R.id.btnGetCheckcodes})
+    @OnClick({R.id.btnUser, R.id.btnGetUser, R.id.btnGetGithubApi, R.id.btnGetUseHelp, R.id.btnGetUseHelps, R.id.btnGetWeather, R.id.btnGetWeathers, R.id.btnGetCheckcode, R.id.btnGetCheckcodes})
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.btnUser:
                 getUserRepo();
                 break;
@@ -113,23 +109,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void getCheckCode() {
-
         CheckService checkService = RetrofitWrapper.getInstance().create(CheckService.class);
-
-        Call<CheckBean> call = checkService.getInfo( "去范德萨a" ,"242127af0184f6c5724a30048ed5030a");
+        Call<CheckBean> call = checkService.getInfo("去范德萨a", "242127af0184f6c5724a30048ed5030a");
 
         call.enqueue(new Callback<CheckBean>() {
             @Override
             public void onResponse(Call<CheckBean> call, Response<CheckBean> response) {
-                CheckBean checkBean = response.body();
-                Log.d(TAG, " getCheckCode  onResponse: "+checkBean.toString() +"   "+response.code()+"  "+response.message());
+                if (response.body() != null) {
+                    CheckBean checkBean = response.body();
+                    Log.d(TAG, " getCheckCode  onResponse: " + checkBean.toString() + "   " + response.code() + "  " + response.message());
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
             public void onFailure(Call<CheckBean> call, Throwable t) {
-
                 t.printStackTrace();
             }
         });
@@ -140,43 +136,47 @@ public class MainActivity extends AppCompatActivity {
         CheckService checkService = RetrofitWrapper.getInstance().create(CheckService.class);
 
         Map<String, String> params = new HashMap<>();
-        params.put("info","土木工程载厅暮云春树工塔顶地");
-        params.put("key","242127af0184f6c5724a30048ed5030a");
+        params.put("info", "土木工程载厅暮云春树工塔顶地");
+        params.put("key", "242127af0184f6c5724a30048ed5030a");
         Call<CheckBean> call = checkService.getInfos(params);
         call.enqueue(new Callback<CheckBean>() {
             @Override
             public void onResponse(Call<CheckBean> call, Response<CheckBean> response) {
-                CheckBean checkBean = response.body();
-                Log.d(TAG, "getCheckCodes  onResponse: "+checkBean.toString() +"   "+response.code()+"  "+response.message());
+                if (response.body() != null) {
+                    CheckBean checkBean = response.body();
+                    Log.d(TAG, "getCheckCodes  onResponse: " + checkBean.toString() + "   " + response.code() + "  " + response.message());
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
             public void onFailure(Call<CheckBean> call, Throwable t) {
-
                 t.printStackTrace();
             }
         });
 
 
-
     }
 
     private void getWeakData() {
-
-
         WeatherService weatherService = RetrofitWrapper.getInstance().create(WeatherService.class);
 
         Call<WeatherData> call = weatherService.getWeather("深圳", "88ca9906a9ac5408ecd46b42c8e5324f", "json", 2);
         call.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
-                WeatherData weatherData = response.body();
+                if (response.body() != null) {
+                    WeatherData weatherData = response.body();
 
-                Log.d(TAG, "onResponse: " + response.code() + "    " + response.message() + "   " + response.isSuccessful());
-                Log.d(TAG, "getWeakData onResponse: " + weatherData.toString());
+                    Log.d(TAG, "onResponse: " + response.code() + "    " + response.message() + "   " + response.isSuccessful());
+                    Log.d(TAG, "getWeakData onResponse: " + weatherData.toString());
 
-                mTv.setText(weatherData.result.future.get(0).toString());
-                mPb.setProgress(23);
+                    mTv.setText(weatherData.result.future.get(0).toString());
+                    mPb.setProgress(23);
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
@@ -188,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getWeakDatas() {
-
         WeatherService weatherService = RetrofitWrapper.getInstance().create(WeatherService.class);
 
         Map<String, String> params = new HashMap<>();
@@ -198,17 +197,20 @@ public class MainActivity extends AppCompatActivity {
         params.put("format", 2 + "");
         Call<WeatherData> call = weatherService.getWeathers(params);
 
-
         call.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
-                WeatherData weatherData = response.body();
+                if (response.body() != null) {
+                    WeatherData weatherData = response.body();
 
-                Log.d(TAG, "onResponse: " + response.code() + "    " + response.message() + "   " + response.isSuccessful());
-                Log.d(TAG, "getWeakDatas onResponse: " + weatherData.toString());
+                    Log.d(TAG, "onResponse: " + response.code() + "    " + response.message() + "   " + response.isSuccessful());
+                    Log.d(TAG, "getWeakDatas onResponse: " + weatherData.toString());
 
-                mTv.setText(weatherData.result.today.toString());
-                mPb.setProgress(11);
+                    mTv.setText(weatherData.result.today.toString());
+                    mPb.setProgress(11);
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
@@ -222,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUseHelps() {
-
         MyServcie myServcie = RetrofitWrapper.getInstance().create(MyServcie.class);
 
         Map<String, String> params = new HashMap<>();
@@ -235,13 +236,17 @@ public class MainActivity extends AppCompatActivity {
         useHelpBeanCall.enqueue(new Callback<UseHelpBean>() {
             @Override
             public void onResponse(Call<UseHelpBean> call, Response<UseHelpBean> response) {
-                Log.d(TAG, "getUseHelps onResponse: " + response.message());
+                if (response.body() != null) {
+                    Log.d(TAG, "getUseHelps onResponse: " + response.message());
 
-                UseHelpBean useHelpBean = response.body();
+                    UseHelpBean useHelpBean = response.body();
 
-                Log.d(TAG, "getUseHelps onResponse: " + useHelpBean.toString());
-                mTv.setText(useHelpBean.toString());
-                mPb.setProgress(44);
+                    Log.d(TAG, "getUseHelps onResponse: " + useHelpBean.toString());
+                    mTv.setText(useHelpBean.toString());
+                    mPb.setProgress(44);
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
@@ -250,33 +255,30 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-
-
     }
 
     private void getUseHelp() {
-
         MyServcie myServcie = RetrofitWrapper.getInstance().create(MyServcie.class);
-
         Call<UseHelpBean> useHelpBeanCall = myServcie.getUseHelp(ConfigureInfo.SIGN, ConfigureInfo.APP_KEY, ConfigureInfo.OS_NAME);
-
 
         useHelpBeanCall.enqueue(new Callback<UseHelpBean>() {
             @Override
             public void onResponse(Call<UseHelpBean> call, Response<UseHelpBean> response) {
+                if (response.body() != null) {
+                    Log.d(TAG, "getUseHelp onResponse: " + response.message());
 
-                Log.d(TAG, "getUseHelp onResponse: " + response.message());
+                    UseHelpBean useHelpBean = response.body();
 
-                UseHelpBean useHelpBean = response.body();
-
-                Log.d(TAG, "onResponse: " + useHelpBean.toString());
-                mTv.setText(useHelpBean.toString());
-                mPb.setProgress(33);
+                    Log.d(TAG, "onResponse: " + useHelpBean.toString());
+                    mTv.setText(useHelpBean.toString());
+                    mPb.setProgress(33);
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
             public void onFailure(Call<UseHelpBean> call, Throwable t) {
-
                 Log.d(TAG, "getUseHelp onFailure: " + t.getMessage());
                 t.printStackTrace();
             }
@@ -288,20 +290,22 @@ public class MainActivity extends AppCompatActivity {
      * @GET Call<GithubBean> getGitHubApi();
      */
     private void getGithubApi() {
-
-        GitHubService    gitHubService = RetrofitWrapper.getInstance().create(GitHubService.class);
-        Call<GithubBean> apiBeanCall   = gitHubService.getGitHubApi();
+        GitHubService gitHubService = RetrofitWrapper.getInstance().create(GitHubService.class);
+        Call<GithubBean> apiBeanCall = gitHubService.getGitHubApi();
 
         apiBeanCall.enqueue(new Callback<GithubBean>() {
             @Override
             public void onResponse(Call<GithubBean> call, Response<GithubBean> response) {
+                if (response.body() != null) {
+                    Log.d(TAG, "getGithubApi onResponse: " + response.message());
+                    GithubBean githubBean = response.body();
 
-                Log.d(TAG, "getGithubApi onResponse: " + response.message());
-                GithubBean githubBean = response.body();
-
-                Log.d(TAG, "onResponse: " + githubBean.toString());
-                mTv.setText(githubBean.toString());
-                mPb.setProgress(78);
+                    Log.d(TAG, "onResponse: " + githubBean.toString());
+                    mTv.setText(githubBean.toString());
+                    mPb.setProgress(78);
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
@@ -319,23 +323,25 @@ public class MainActivity extends AppCompatActivity {
      */
     private void getUser() {
         GitHubService gitHubService = RetrofitWrapper.getInstance().create(GitHubService.class);
-
         Call<User> userCall = gitHubService.getUser();
 
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                User user = response.body();
+                if (response.body() != null) {
+                    User user = response.body();
 
-                Log.d(TAG, "getUser onResponse: " + user.toString());
-                Log.d(TAG, " getUser onResponse: " + response.code() + "    " + response.isSuccessful() + "    " + response.message());
-                mTv.setText(user.toString());
-                mPb.setProgress(100);
+                    Log.d(TAG, "getUser onResponse: " + user.toString());
+                    Log.d(TAG, " getUser onResponse: " + response.code() + "    " + response.isSuccessful() + "    " + response.message());
+                    mTv.setText(user.toString());
+                    mPb.setProgress(100);
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
                 Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
@@ -346,40 +352,35 @@ public class MainActivity extends AppCompatActivity {
      * ("users/{user}/repos")
      */
     private void getUserRepo() {
-
         GitHubService gitHubService = RetrofitWrapper.getInstance().create(GitHubService.class);
-
         Call<List<Repo>> call = gitHubService.listRepos("octocat");
-
 
         call.enqueue(new Callback<List<Repo>>() {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
-                //接收结果
-                List<Repo> list = response.body();
+                if (response.body() != null) {
+                    //接收结果
+                    List<Repo> list = response.body();
 
-                Log.d(TAG, "getUserRepo onResponse: " + list.size() + "    " + list.toString());
-                Log.d(TAG, "getUserRepo onResponse:当前线程 " + Thread.currentThread().getName());
+                    Log.d(TAG, "getUserRepo onResponse: " + list.size() + "    " + list.toString());
+                    Log.d(TAG, "getUserRepo onResponse:当前线程 " + Thread.currentThread().getName());
 
-                /**
-                 * 回调是在主线程可以更新UI
-                 */
-                mTv.setText(list.get(0).toString());
-                mPb.setProgress(50);
-
+                    /**
+                     * 回调是在主线程可以更新UI
+                     */
+                    mTv.setText(list.get(0).toString());
+                    mPb.setProgress(50);
+                } else {
+                    Log.d(TAG, " onResponse body is null");
+                }
             }
 
             @Override
             public void onFailure(Call<List<Repo>> call, Throwable t) {
-
                 Log.d(TAG, "onFailure: " + t.getMessage());
                 Log.d(TAG, "onFailure:当前线程 " + Thread.currentThread().getName());
                 t.printStackTrace();
             }
         });
-
-
     }
-
-
 }
