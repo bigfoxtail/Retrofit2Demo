@@ -1,7 +1,7 @@
 package com.liu.retrofit2demo;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -36,29 +36,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final String TAG = "vivi";
-    @Bind(R.id.btnUser)
+    @BindView(R.id.btnUser)
     Button mBtnUser;
-    @Bind(R.id.btnGetUser)
+    @BindView(R.id.btnGetUser)
     Button mBtnGetUser;
 
 
-    @Bind(R.id.tv)
+    @BindView(R.id.tv)
     TextView    mTv;
-    @Bind(R.id.pb)
+    @BindView(R.id.pb)
     ProgressBar mPb;
-    @Bind(R.id.btnGetGithubApi)
+    @BindView(R.id.btnGetGithubApi)
     Button      mBtnGetGithubApi;
-    @Bind(R.id.btnGetUseHelp)
+    @BindView(R.id.btnGetUseHelp)
     Button      mBtnGetUseHelp;
-    @Bind(R.id.btnGetUseHelps)
+    @BindView(R.id.btnGetUseHelps)
     Button      mBtnGetUseHelps;
-    @Bind(R.id.btnGetWeather)
+    @BindView(R.id.btnGetWeather)
     Button      mBtnGetWeather;
-    @Bind(R.id.btnGetWeathers)
+    @BindView(R.id.btnGetWeathers)
     Button      mBtnGetWeathers;
-    @Bind(R.id.btnGetCheckcode)
+    @BindView(R.id.btnGetCheckcode)
     Button      mBtnGetCheckcode;
-    @Bind(R.id.btnGetCheckcodes)
+    @BindView(R.id.btnGetCheckcodes)
     Button      mBtnGetCheckcodes;
 
     /**

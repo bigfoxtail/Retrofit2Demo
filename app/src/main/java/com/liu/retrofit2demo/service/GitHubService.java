@@ -2,6 +2,7 @@ package com.liu.retrofit2demo.service;
 
 import com.liu.retrofit2demo.bean.GithubBean;
 import com.liu.retrofit2demo.bean.Repo;
+import com.liu.retrofit2demo.bean.Repo2;
 import com.liu.retrofit2demo.bean.User;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface GitHubService {
     @GET("users/{user}/repos")
     Call<List<Repo>> listRepos(@Path("user") String user);
 
+    @GET("users/{user}/repos")
+    Call<List<Repo2>> listRepos2(@Path("user") String user);
 
     @GET("users/list")
     Call<User> getUser();
